@@ -5,8 +5,16 @@ name = "pypi"
 
 [packages]
 requests = "*"
+pylint = "*"
+mypy = "*"
+black = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.11"
+
+[scripts]
+pylint_check = 'pylint src/*'
+mypy_check = 'mypy src'
+run_black = 'black src/*'
