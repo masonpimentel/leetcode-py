@@ -1,9 +1,9 @@
 def main():
-    print('do request')
+    print("do request")
+
 
 if __name__ == "__main__":
     main()
-
 
 
 # fetch("https://leetcode.com/graphql/", {
