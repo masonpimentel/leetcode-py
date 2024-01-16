@@ -1,5 +1,9 @@
+import requests
+
 def main():
     print("do request")
+    r = requests.get('https://www.google.com')
+    print(r)
 
 
 if __name__ == "__main__":

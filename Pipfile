@@ -8,6 +8,7 @@ requests = "*"
 pylint = "*"
 mypy = "*"
 black = "*"
+types-requests = "*"
 
 [dev-packages]
 
