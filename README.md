@@ -12,3 +12,7 @@ _Step 2_ - select your current workspace |
 ![](assets/Step3.png) |
 ------------ | 
 _Step 3_ - set this to the right interpreter | 
+
+## Running
+
+`pipenv run python main.py`
