@@ -1,9 +1,11 @@
 import requests
+from typing_extensions import TypedDict
 
 LEETCODE_SESSION = 'insert here'
 CSRF_TOKEN = 'insert here'
 
-def main():
+
+def main() -> None:
     cookies = {
         "gr_user_id": "ff575bc7-ace7-4310-b8b9-6d0bee0de5a5",
         "87b5a3c3f1a55520_gr_last_sent_cs1": "masonpimentel",
@@ -66,20 +68,25 @@ def main():
         json=json_data,
         timeout=10,
     )
-    questions = response.json()["data"]["problemsetQuestionList"]["questions"]
+
+
+    # pylint: disable=C0103
+    QuestionFromAll = TypedDict('QuestionFromAll', { 'status': str, 'titleSlug': str })
+    questions: list[QuestionFromAll] = response.json()["data"]["problemsetQuestionList"]["questions"]
+
     questions = list(filter(lambda question: question["status"] != "ac", questions))
     print(f"Total problems: {len(questions)}")
 
-    print(questions[0]['titleSlug'])
+    print(questions[0]["titleSlug"])
 
-    slug = questions[0]['titleSlug']
+    slug = questions[0]["titleSlug"]
 
     json_data = {
-        'operationName': 'questionData',
-        'variables': {
-            'titleSlug': slug,
+        "operationName": "questionData",
+        "variables": {
+            "titleSlug": slug,
         },
-        'query': 'query questionData($titleSlug: String!) {\n  question(titleSlug: $titleSlug) {\n    questionId\n    questionFrontendId\n    boundTopicId\n    title\n    titleSlug\n    content\n    translatedTitle\n    translatedContent\n    isPaidOnly\n    canSeeQuestion\n    difficulty\n    likes\n    dislikes\n    isLiked\n    similarQuestions\n    exampleTestcases\n    categoryTitle\n    contributors {\n      username\n      profileUrl\n      avatarUrl\n      __typename\n    }\n    topicTags {\n      name\n      slug\n      translatedName\n      __typename\n    }\n    companyTagStats\n    codeSnippets {\n      lang\n      langSlug\n      code\n      __typename\n    }\n    stats\n    hints\n    solution {\n      id\n      canSeeDetail\n      paidOnly\n      hasVideoSolution\n      paidOnlyVideo\n      __typename\n    }\n    status\n    sampleTestCase\n    metaData\n    judgerAvailable\n    judgeType\n    mysqlSchemas\n    enableRunCode\n    enableTestMode\n    enableDebugger\n    envInfo\n    libraryUrl\n    adminUrl\n    challengeQuestion {\n      id\n      date\n      incompleteChallengeCount\n      streakCount\n      type\n      __typename\n    }\n    __typename\n  }\n}\n',
+        "query": "query questionData($titleSlug: String!) {\n  question(titleSlug: $titleSlug) {\n    questionId\n    questionFrontendId\n    boundTopicId\n    title\n    titleSlug\n    content\n    translatedTitle\n    translatedContent\n    isPaidOnly\n    canSeeQuestion\n    difficulty\n    likes\n    dislikes\n    isLiked\n    similarQuestions\n    exampleTestcases\n    categoryTitle\n    contributors {\n      username\n      profileUrl\n      avatarUrl\n      __typename\n    }\n    topicTags {\n      name\n      slug\n      translatedName\n      __typename\n    }\n    companyTagStats\n    codeSnippets {\n      lang\n      langSlug\n      code\n      __typename\n    }\n    stats\n    hints\n    solution {\n      id\n      canSeeDetail\n      paidOnly\n      hasVideoSolution\n      paidOnlyVideo\n      __typename\n    }\n    status\n    sampleTestCase\n    metaData\n    judgerAvailable\n    judgeType\n    mysqlSchemas\n    enableRunCode\n    enableTestMode\n    enableDebugger\n    envInfo\n    libraryUrl\n    adminUrl\n    challengeQuestion {\n      id\n      date\n      incompleteChallengeCount\n      streakCount\n      type\n      __typename\n    }\n    __typename\n  }\n}\n",
     }
     response = requests.post(
         "https://leetcode.com/graphql/",
@@ -88,8 +95,13 @@ def main():
         json=json_data,
         timeout=10,
     )
-    print(response.json()['data']['question']['likes'])
-    print(response.json()['data']['question']['dislikes'])
+
+    # pylint: disable=C0103
+    QuestionFromDetail = TypedDict('QuestionFromDetail', { 'questionId': int, 'title': str, 'likes': int, 'dislikes': int })
+    question: QuestionFromDetail = response.json()["data"]["question"]
+
+    # print(response.json()["data"]["question"]["likes"])
+    # print(response.json()["data"]["question"]["dislikes"])
 
 
 if __name__ == "__main__":
