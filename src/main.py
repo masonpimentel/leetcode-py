@@ -98,16 +98,21 @@ def main() -> None:
             timeout=10,
         )
 
+        CodeSnippet = TypedDict('CodeSnippet', { 'lang': str})
         # pylint: disable=C0103
         QuestionFromDetail = TypedDict(
             "QuestionFromDetail",
-            {"questionId": int, "title": str, "likes": int, "dislikes": int},
+            {"questionId": int, "title": str, "likes": int, "dislikes": int, "codeSnippets": list[CodeSnippet]},
         )
         questionFromDetail: QuestionFromDetail = response.json()["data"]["question"]
 
-        if questionFromDetail["likes"] > questionFromDetail['dislikes']:
-            print(f'ID: {questionFromDetail["questionId"]} Title: {questionFromDetail["title"]}')
-        
+        snippets = list(map(lambda question: question['lang'], questionFromDetail["codeSnippets"]))
+
+        if questionFromDetail["likes"] > questionFromDetail["dislikes"] and questionFromDetail["codeSnippets"] and 'Python3' in snippets:
+            print(
+                f'ID: {questionFromDetail["questionId"]} Title: {questionFromDetail["title"]}'
+            )
+
         time.sleep(1)
 
     # print(response.json()["data"]["question"]["likes"])
