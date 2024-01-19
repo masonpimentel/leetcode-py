@@ -1,11 +1,8 @@
 def main():
-    a = 2
+    a = ["aaa","aab","bc","aaabbcc"]
 
-    n = {a: 3}
-
-    print(n)
-    for key, val in n.items():
-        print(f"val: {val}, key: {key}")
+    a.sort(key=lambda w: len(w), reverse=True)
+    print(a)
 
 
 if __name__ == "__main__":
