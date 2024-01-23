@@ -93,6 +93,9 @@ def main() -> None:
 
         time.sleep(1)
 
+def inc(x) -> int:
+    return x + 1
+
 
 if __name__ == "__main__":
     main()

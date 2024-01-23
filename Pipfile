@@ -9,6 +9,8 @@ pylint = "*"
 mypy = "*"
 black = "*"
 types-requests = "*"
+coverage = "*"
+pytest = "*"
 
 [dev-packages]
 

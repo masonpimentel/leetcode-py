@@ -16,3 +16,13 @@ _Step 3_ - set this to the right interpreter |
 ## Running
 
 `pipenv run python main.py`
+
+## Testing
+
+### Run tests
+
+`pipenv run pytest`
+
+### Get coverage report
+
+`pipenv run coverage report -m`
