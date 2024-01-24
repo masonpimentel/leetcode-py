@@ -6,9 +6,10 @@ from typing_extensions import TypedDict
 
 LEETCODE_SESSION = "insert actual session here"
 CSRF_TOKEN = "insert actual token here"
-LANGUAGE = 'Python3'
+LANGUAGE = "Python3"
 # Increase this if LeetCode is returning rate limit errors
 SLEEP_TIME = 0.5
+
 
 # pylint: disable=C0116
 def print_problems() -> None:
