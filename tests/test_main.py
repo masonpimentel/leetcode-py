@@ -1,6 +1,7 @@
 from src import main
 import requests
 from unittest.mock import MagicMock, patch, call
+import pytest
 
 
 class MockQuestionResponse:
@@ -77,9 +78,8 @@ JSON_DATA = {
     "query": "query questionData($titleSlug: String!) {\n  question(titleSlug: $titleSlug) {\n    questionId\n    questionFrontendId\n    boundTopicId\n    title\n    titleSlug\n    content\n    translatedTitle\n    translatedContent\n    isPaidOnly\n    canSeeQuestion\n    difficulty\n    likes\n    dislikes\n    isLiked\n    similarQuestions\n    exampleTestcases\n    categoryTitle\n    contributors {\n      username\n      profileUrl\n      avatarUrl\n      __typename\n    }\n    topicTags {\n      name\n      slug\n      translatedName\n      __typename\n    }\n    companyTagStats\n    codeSnippets {\n      lang\n      langSlug\n      code\n      __typename\n    }\n    stats\n    hints\n    solution {\n      id\n      canSeeDetail\n      paidOnly\n      hasVideoSolution\n      paidOnlyVideo\n      __typename\n    }\n    status\n    sampleTestCase\n    metaData\n    judgerAvailable\n    judgeType\n    mysqlSchemas\n    enableRunCode\n    enableTestMode\n    enableDebugger\n    envInfo\n    libraryUrl\n    adminUrl\n    challengeQuestion {\n      id\n      date\n      incompleteChallengeCount\n      streakCount\n      type\n      __typename\n    }\n    __typename\n  }\n}\n",
 }
 
-
-@patch("builtins.print")
-def test_problems_filtered(mock_print):
+@pytest.fixture(autouse=True)
+def init_requests_post():
     requests.post = MagicMock()
 
     requests.post.side_effect = [
@@ -89,19 +89,13 @@ def test_problems_filtered(mock_print):
         MockProblem4FailsLanguage(),
     ]
 
+@patch("builtins.print")
+def test_problems_filtered(mock_print):
     main.print_problems()
     mock_print.assert_any_call("Total problems: 2")
 
 
 def test_question_calls():
-    requests.post = MagicMock()
-    requests.post.side_effect = [
-        MockQuestionResponse(),
-        MockProblem2Passes(),
-        MockProblem3FailsLikeRatio(),
-        MockProblem4FailsLanguage(),
-    ]
-
     json_data_problem_2 = {**JSON_DATA, "variables": {"titleSlug": "problem-2"}}
     json_data_problem_3 = {**JSON_DATA, "variables": {"titleSlug": "problem-3"}}
 
@@ -126,15 +120,6 @@ def test_question_calls():
 
 @patch("builtins.print")
 def test_problems_output(mock_print):
-    requests.post = MagicMock()
-
-    requests.post.side_effect = [
-        MockQuestionResponse(),
-        MockProblem2Passes(),
-        MockProblem3FailsLikeRatio(),
-        MockProblem4FailsLanguage(),
-    ]
-
     main.print_problems()
 
     mock_print.assert_has_calls([call("Total problems: 2"), call("Problem 2")])
