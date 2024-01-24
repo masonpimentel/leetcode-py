@@ -15,12 +15,14 @@ _Step 3_ - set this to the right interpreter |
 
 ## Running
 
+`cd src`
 `pipenv run python main.py`
 
 ## Testing
 
 ### Run tests
 
+`cd test`
 `pipenv run pytest`
 
 ### Get coverage report
