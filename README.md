@@ -67,3 +67,15 @@ $ cd tests
 $ pipenv run coverage run -m pytest
 $ pipenv run coverage report -m
 ```
+
+## Linting
+
+```
+$ pipenv run pylint_check
+```
+
+## Type check
+
+```
+$ pipenv run mypy src
+```
