@@ -21,9 +21,50 @@ The steps to run this script are:
 
 ### Install Python
 
-TBA
+Download and install the latest (3.x) version of Python for your system.
+
+For Mac my recommendation would be to use pyenv: https://github.com/pyenv/pyenv (using the installer from https://www.python.org/downloads/ causes a mess with the `python` and `pip` aliases in my experience).
+
+If using the `pyenv` approach, the following should work (note that at time of writing `pipenv` in the next step prefers v3.11, but you can list all available versions using `pyenv install -l`):
+
+
+
+```
+$ brew update
+$ brew install pyenv
+$ pyenv install 3.11.7
+$ pyenv global 3.11.7
+```
+
+Then follow the appropraite steps in https://github.com/pyenv/pyenv?tab=readme-ov-file#set-up-your-shell-environment-for-pyenv
+
+### Install pipenv
+
+Install `pipenv` to manage virtualenv: https://pipenv.pypa.io/en/latest/
+
+
+
+```
+$ pip install --user pipenv
+```
+
+Note that if you see the output
+
+```
+WARNING: The scripts pipenv and pipenv-resolver are installed in '/Users/masonpimentel/.local/bin' which is not on PATH.
+```
+
+You might have do adjust your PATH accordingly, for example on latest MacOS, add this to your `.zshrc`:
+
+```
+export PATH=/Users/masonpimentel/.local/bin:$PATH
+```
 
 ### Install packages
+
+```
+$ pipenv run sync
+```
 
 ### Run the script
 
