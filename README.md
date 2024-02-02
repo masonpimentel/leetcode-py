@@ -66,6 +66,30 @@ export PATH=/Users/masonpimentel/.local/bin:$PATH
 $ pipenv run sync
 ```
 
+### Get your auth info from LeetCode
+
+Two values need to be filled in:
+
+`LEETCODE_SESSION`: https://github.com/masonpimentel/leetcode-py/blob/cc7e321782e25f8fc7d49048924ef0c142c1c0eb/src/main.py#L7
+
+`CSRF_TOKEN`: https://github.com/masonpimentel/leetcode-py/blob/cc7e321782e25f8fc7d49048924ef0c142c1c0eb/src/main.py#L8
+
+To obtain these, go to https://leetcode.com/problemset/ and inspect your network requests (ex. for Chrome: https://developer.chrome.com/docs/devtools/network)
+
+Find any request to https://leetcode.com/graphql/:
+
+![](assets/GraphQLRequest.png) |
+------------ | 
+_Finding a GraphQL request_ | 
+
+And find the `LEETCODE_SESSION` value and `csrftoken` value (stored as `CSRF_TOKEN` in code) in Request Headers -> Cookie:
+
+![](assets/GettingValues.png) |
+------------ | 
+_Taking LEETCODE_SESSION and CSRF_TOKEN values_ | 
+
+Be sure not to check these in to version control!
+
 ### Run the script
 
 ```
