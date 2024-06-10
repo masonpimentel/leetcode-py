@@ -96,7 +96,10 @@ def print_problems() -> None:
             questionFromDetail: QuestionFromDetail = response.json()["data"]["question"]
 
             snippets = list(
-                map(lambda question: question["lang"], questionFromDetail["codeSnippets"])
+                map(
+                    lambda question: question["lang"],
+                    questionFromDetail["codeSnippets"],
+                )
             )
 
             if (
@@ -104,11 +107,14 @@ def print_problems() -> None:
                 and questionFromDetail["codeSnippets"]
                 and LANGUAGE in snippets
             ):
-                print(f'https://leetcode.com/problems/{questionFromDetail["titleSlug"]}')
-            
+                print(
+                    f'https://leetcode.com/problems/{questionFromDetail["titleSlug"]}'
+                )
+
             i += 1
+        # pylint: disable=W0702
         except:
-            print('Error querying question, try again')
+            print("Error querying question, try again")
 
 
 if __name__ == "__main__":

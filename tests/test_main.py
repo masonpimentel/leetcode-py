@@ -35,9 +35,11 @@ class MockProblem2Passes:
             }
         }
 
+
 class MockProblem3FailsCall:
     def json(self):
         raise Exception
+
 
 class MockProblem3FailsLikeRatio:
     def json(self):
@@ -126,13 +128,13 @@ def test_question_calls():
         timeout=10,
     )
 
+
 @patch("builtins.print")
 def test_problems_retry_output(mock_print):
     main.print_problems()
 
-    mock_print.assert_has_calls(
-        [call("Error querying question, try again")]
-    )
+    mock_print.assert_has_calls([call("Error querying question, try again")])
+
 
 @patch("builtins.print")
 def test_problems_standard_output(mock_print):
