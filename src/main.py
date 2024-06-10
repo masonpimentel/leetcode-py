@@ -54,7 +54,10 @@ def print_problems() -> None:
     questions = list(filter(lambda question: question["status"] != "ac", questions))
     print(f"Total problems: {len(questions)}")
 
-    for question in questions:
+    i = 0
+    while i < len(questions):
+        question = questions[i]
+
         slug = question["titleSlug"]
 
         json_data = {
@@ -66,40 +69,45 @@ def print_problems() -> None:
             "query": "query questionData($titleSlug: String!) {\n  question(titleSlug: $titleSlug) {\n    questionId\n    questionFrontendId\n    boundTopicId\n    title\n    titleSlug\n    content\n    translatedTitle\n    translatedContent\n    isPaidOnly\n    canSeeQuestion\n    difficulty\n    likes\n    dislikes\n    isLiked\n    similarQuestions\n    exampleTestcases\n    categoryTitle\n    contributors {\n      username\n      profileUrl\n      avatarUrl\n      __typename\n    }\n    topicTags {\n      name\n      slug\n      translatedName\n      __typename\n    }\n    companyTagStats\n    codeSnippets {\n      lang\n      langSlug\n      code\n      __typename\n    }\n    stats\n    hints\n    solution {\n      id\n      canSeeDetail\n      paidOnly\n      hasVideoSolution\n      paidOnlyVideo\n      __typename\n    }\n    status\n    sampleTestCase\n    metaData\n    judgerAvailable\n    judgeType\n    mysqlSchemas\n    enableRunCode\n    enableTestMode\n    enableDebugger\n    envInfo\n    libraryUrl\n    adminUrl\n    challengeQuestion {\n      id\n      date\n      incompleteChallengeCount\n      streakCount\n      type\n      __typename\n    }\n    __typename\n  }\n}\n",
         }
 
-        response = requests.post(
-            "https://leetcode.com/graphql/",
-            cookies=cookies,
-            headers=headers,
-            json=json_data,
-            timeout=10,
-        )
-
-        CodeSnippet = TypedDict("CodeSnippet", {"lang": str})
-        # pylint: disable=C0103
-        QuestionFromDetail = TypedDict(
-            "QuestionFromDetail",
-            {
-                "questionId": int,
-                "title": str,
-                "likes": int,
-                "dislikes": int,
-                "codeSnippets": list[CodeSnippet],
-            },
-        )
-        questionFromDetail: QuestionFromDetail = response.json()["data"]["question"]
-
-        snippets = list(
-            map(lambda question: question["lang"], questionFromDetail["codeSnippets"])
-        )
-
-        if (
-            questionFromDetail["likes"] > questionFromDetail["dislikes"]
-            and questionFromDetail["codeSnippets"]
-            and LANGUAGE in snippets
-        ):
             print(questionFromDetail["title"])
+        try:
+            time.sleep(SLEEP_TIME)
 
-        time.sleep(SLEEP_TIME)
+            response = requests.post(
+                "https://leetcode.com/graphql/",
+                cookies=cookies,
+                headers=headers,
+                json=json_data,
+                timeout=10,
+            )
+
+            CodeSnippet = TypedDict("CodeSnippet", {"lang": str})
+            # pylint: disable=C0103
+            QuestionFromDetail = TypedDict(
+                "QuestionFromDetail",
+                {
+                    "questionId": int,
+                    "title": str,
+                    "likes": int,
+                    "dislikes": int,
+                    "codeSnippets": list[CodeSnippet],
+                },
+            )
+            questionFromDetail: QuestionFromDetail = response.json()["data"]["question"]
+
+            snippets = list(
+                map(lambda question: question["lang"], questionFromDetail["codeSnippets"])
+            )
+
+            if (
+                questionFromDetail["likes"] > questionFromDetail["dislikes"]
+                and questionFromDetail["codeSnippets"]
+                and LANGUAGE in snippets
+            ):
+            
+            i += 1
+        except:
+            print('Error querying question, try again')
 
 
 if __name__ == "__main__":
