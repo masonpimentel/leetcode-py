@@ -30,6 +30,7 @@ class MockProblem2Passes:
                     "likes": 3,
                     "dislikes": 2,
                     "codeSnippets": [{"lang": "Python3"}],
+                    "titleSlug": "problem-2"
                 }
             }
         }
@@ -45,6 +46,7 @@ class MockProblem3FailsLikeRatio:
                     "likes": 3,
                     "dislikes": 4,
                     "codeSnippets": [{"lang": "Python3"}],
+                    "titleSlug": "problem-2"
                 }
             }
         }
@@ -60,6 +62,7 @@ class MockProblem4FailsLanguage:
                     "likes": 3,
                     "dislikes": 1,
                     "codeSnippets": [{"lang": "SQL"}],
+                    "titleSlug": "problem-2"
                 }
             }
         }
@@ -124,4 +127,4 @@ def test_question_calls():
 def test_problems_output(mock_print):
     main.print_problems()
 
-    mock_print.assert_has_calls([call("Total problems: 2"), call("Problem 2")])
+    mock_print.assert_has_calls([call("Total problems: 2"), call("https://leetcode.com/problems/problem-2")])
