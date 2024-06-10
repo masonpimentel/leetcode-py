@@ -90,6 +90,7 @@ def print_problems() -> None:
                     "likes": int,
                     "dislikes": int,
                     "codeSnippets": list[CodeSnippet],
+                    "titleSlug": str,
                 },
             )
             questionFromDetail: QuestionFromDetail = response.json()["data"]["question"]

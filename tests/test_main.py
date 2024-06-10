@@ -30,11 +30,14 @@ class MockProblem2Passes:
                     "likes": 3,
                     "dislikes": 2,
                     "codeSnippets": [{"lang": "Python3"}],
-                    "titleSlug": "problem-2"
+                    "titleSlug": "problem-2",
                 }
             }
         }
 
+class MockProblem3FailsCall:
+    def json(self):
+        raise Exception
 
 class MockProblem3FailsLikeRatio:
     def json(self):
@@ -46,7 +49,7 @@ class MockProblem3FailsLikeRatio:
                     "likes": 3,
                     "dislikes": 4,
                     "codeSnippets": [{"lang": "Python3"}],
-                    "titleSlug": "problem-2"
+                    "titleSlug": "problem-2",
                 }
             }
         }
@@ -62,7 +65,7 @@ class MockProblem4FailsLanguage:
                     "likes": 3,
                     "dislikes": 1,
                     "codeSnippets": [{"lang": "SQL"}],
-                    "titleSlug": "problem-2"
+                    "titleSlug": "problem-2",
                 }
             }
         }
@@ -89,6 +92,7 @@ def init_requests_post():
     requests.post.side_effect = [
         MockQuestionResponse(),
         MockProblem2Passes(),
+        MockProblem3FailsCall(),
         MockProblem3FailsLikeRatio(),
         MockProblem4FailsLanguage(),
     ]
@@ -122,9 +126,18 @@ def test_question_calls():
         timeout=10,
     )
 
-
 @patch("builtins.print")
-def test_problems_output(mock_print):
+def test_problems_retry_output(mock_print):
     main.print_problems()
 
-    mock_print.assert_has_calls([call("Total problems: 2"), call("https://leetcode.com/problems/problem-2")])
+    mock_print.assert_has_calls(
+        [call("Error querying question, try again")]
+    )
+
+@patch("builtins.print")
+def test_problems_standard_output(mock_print):
+    main.print_problems()
+
+    mock_print.assert_has_calls(
+        [call("Total problems: 2"), call("https://leetcode.com/problems/problem-2")]
+    )
