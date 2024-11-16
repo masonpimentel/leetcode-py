@@ -54,6 +54,8 @@ Install `pipenv` to manage virtualenv: https://pipenv.pypa.io/en/latest/
 $ pip install --user pipenv
 ```
 
+#### Mac note
+
 Note that if you see the output
 
 ```
@@ -65,6 +67,12 @@ You might have do adjust your PATH accordingly, for example on latest MacOS, add
 ```
 export PATH=/Users/masonpimentel/.local/bin:$PATH
 ```
+
+#### Windows note
+
+You might need to add the pipenv executable to your path, for example
+
+`C:\Users\<username>\AppData\Roaming\Python\Python312\Scripts`
 
 ### Install packages
 
