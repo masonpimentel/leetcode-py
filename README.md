@@ -23,11 +23,11 @@ The steps to run this script are:
 
 Download and install the latest (3.x) version of Python for your system.
 
+#### Mac
+
 For Mac my recommendation would be to use pyenv: https://github.com/pyenv/pyenv (using the installer from https://www.python.org/downloads/ causes a mess with the `python` and `pip` aliases in my experience).
 
 If using the `pyenv` approach, the following should work (note that at time of writing `pipenv` in the next step prefers v3.11, but you can list all available versions using `pyenv install -l`):
-
-
 
 ```
 $ brew update
@@ -37,6 +37,12 @@ $ pyenv global 3.11.7
 ```
 
 Then follow the appropraite steps in https://github.com/pyenv/pyenv?tab=readme-ov-file#set-up-your-shell-environment-for-pyenv
+
+#### Windows
+
+Give `pyenv-win` a try: https://github.com/pyenv-win/pyenv-win
+
+See the quick start guide: https://github.com/pyenv-win/pyenv-win?tab=readme-ov-file#quick-start
 
 ### Install pipenv
 
